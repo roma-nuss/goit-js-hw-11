@@ -12,13 +12,26 @@ searchForm.addEventListener('submit', async event => {
   event.preventDefault();
 
   const query = searchInput.value.trim();
+
+  if (query === '') {
+    iziToast.warning({
+      message: 'Please enter a valid search query.',
+      messageColor: '#fafafb',
+      messageLineHeight: '1.5px',
+      messageSize: '16px',
+      backgroundColor: '#ffcc00',
+      position: 'topRight',
+    });
+    return;
+  }
+
   loader.style.display = 'block';
 
   try {
     const data = await fetchImages(query);
     renderGalleryItems(data, gallery, lightbox);
   } catch (error) {
-    console.log(error);
+    console.error(error);
   } finally {
     loader.style.display = 'none';
   }
